@@ -2,74 +2,111 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<title>Cake Shop</title>
 
 <style>
 
 body{
-font-family: Arial;
-background:#fff5f7;
-text-align:center;
+font-family:Arial;
+background:#f6f6f6;
+margin:0;
 padding:20px;
 }
 
 h1{
-color:#d94c7a;
+text-align:center;
+}
+
+.catalog{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
 }
 
 .card{
 background:white;
-padding:20px;
-margin:20px auto;
-max-width:350px;
-border-radius:15px;
-box-shadow:0 10px 20px rgba(0,0,0,0.1);
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
-img{
+.card img{
 width:100%;
-border-radius:10px;
+height:140px;
+object-fit:cover;
+}
+
+.card-body{
+padding:10px;
+}
+
+.price{
+font-weight:bold;
+margin-top:5px;
 }
 
 button{
 margin-top:10px;
-padding:12px;
+width:100%;
+padding:10px;
 border:none;
-background:#ff4f8b;
+background:#4e8cff;
 color:white;
-font-size:16px;
-border-radius:10px;
+border-radius:8px;
+font-size:14px;
 }
 
 </style>
+
 </head>
 
 <body>
+
 <h1>🍰 Каталог тортов</h1>
+
+<div class="catalog">
+
 <div class="card">
-
 <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587">
-
+<div class="card-body">
 <h3>Шоколадный торт</h3>
-
-<p>Вес: 1.5 кг</p>
-
-<p>Цена: 45€</p>
-
-<button onclick="order('Шоколадный торт')">Заказать</button>
-
+<p>1.5 кг</p>
+<p class="price">45€</p>
+<button>Заказать</button>
+</div>
 </div>
 
-<script>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1559620192-032c4bc4674e">
+<div class="card-body">
+<h3>Клубничный торт</h3>
+<p>2 кг</p>
+<p class="price">55€</p>
+<button>Заказать</button>
+</div>
+</div>
 
-let tg = window.Telegram.WebApp;
-tg.expand();
+<div class="card">
+<img src="https://images.unsplash.com/photo-1603532648955-039310d9ed75">
+<div class="card-body">
+<h3>Свадебный торт</h3>
+<p>3 кг</p>
+<p class="price">120€</p>
+<button>Заказать</button>
+</div>
+</div>
 
-function order(cake){
-tg.sendData("Заказ: " + cake);
-}
+<div class="card">
+<img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e">
+<div class="card-body">
+<h3>Ягодный торт</h3>
+<p>2 кг</p>
+<p class="price">60€</p>
+<button>Заказать</button>
+</div>
+</div>
 
-</script>
+</div>
 
 </body>
 </html>
