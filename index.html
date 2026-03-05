@@ -232,18 +232,12 @@ let phone=document.getElementById("phone").value;
 let comment=document.getElementById("comment").value;
 
 let text=`Новый заказ 🍰
-
 Торт: ${selectedCake}
-
 Имя: ${name}
-
 Телефон: ${phone}
-
 Комментарий: ${comment}`;
 
-let url=`https://t.me/cake_shop_klin_bot?start=${encodeURIComponent(text)}`;
-
-window.location.href=url;
+Telegram.WebApp.sendData(text);
 
 }
 
