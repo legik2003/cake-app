@@ -4,98 +4,114 @@
 <meta charset="UTF-8">
 <title>Cake Shop</title>
 
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
 <style>
 
 body{
-font-family:Arial;
 margin:0;
-background:#f5f5f5;
+font-family:Arial;
+background:#f4f4f4;
 }
 
 .header{
-background:#ffffff;
 padding:15px;
-text-align:center;
 font-size:20px;
-font-weight:bold;
+text-align:center;
+background:white;
 box-shadow:0 2px 10px rgba(0,0,0,0.1);
 }
 
-.menu{
+.layout{
 display:flex;
-justify-content:space-around;
-background:#fff;
-padding:10px;
 }
 
-.menu button{
+.sidebar{
+width:120px;
+background:white;
+padding:10px;
+box-shadow:2px 0 8px rgba(0,0,0,0.1);
+}
+
+.sidebar button{
+display:block;
+width:100%;
+margin-bottom:8px;
+padding:6px;
 border:none;
 background:#eee;
-padding:8px 14px;
-border-radius:8px;
+border-radius:6px;
 cursor:pointer;
+font-size:12px;
+}
+
+.content{
+flex:1;
+padding:12px;
 }
 
 .catalog{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:12px;
-padding:15px;
+gap:10px;
 }
 
 .card{
 background:white;
-border-radius:12px;
+border-radius:10px;
 overflow:hidden;
-box-shadow:0 4px 12px rgba(0,0,0,0.1);
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+cursor:pointer;
 }
 
 .card img{
 width:100%;
-height:140px;
+height:120px;
 object-fit:cover;
 }
 
 .card-body{
-padding:10px;
+padding:8px;
 }
 
 .price{
 font-weight:bold;
-margin-top:5px;
 }
 
 button.buy{
-margin-top:10px;
+margin-top:8px;
 width:100%;
-padding:10px;
+padding:8px;
 border:none;
 background:#ff6b6b;
 color:white;
-border-radius:8px;
+border-radius:6px;
 }
 
-.form{
+.product{
 display:none;
-padding:20px;
 }
 
-input,textarea{
+.product img{
 width:100%;
-padding:10px;
+border-radius:10px;
+}
+
+.builder{
+display:none;
+}
+
+.options{
+display:flex;
+gap:10px;
 margin-top:10px;
-border-radius:8px;
-border:1px solid #ccc;
 }
 
-.send{
-background:#4CAF50;
-color:white;
-border:none;
-padding:12px;
-margin-top:15px;
-width:100%;
+.option{
+background:white;
+padding:10px;
 border-radius:8px;
+cursor:pointer;
 }
 
 </style>
@@ -107,31 +123,82 @@ border-radius:8px;
 🍰 Cake Shop
 </div>
 
-<div class="menu">
-<button onclick="showCategory('cake')">🎂 Торты</button>
-<button onclick="showCategory('cupcake')">🧁 Капкейки</button>
-<button onclick="showCategory('dessert')">🍰 Десерты</button>
+<div class="layout">
+
+<div class="sidebar">
+
+<button onclick="showCatalog('cake')">🎂 Торты</button>
+<button onclick="showCatalog('cupcake')">🧁 Капкейки</button>
+<button onclick="showCatalog('dessert')">🍰 Десерты</button>
+<button onclick="openBuilder()">🎨 Конструктор</button>
+
 </div>
+
+<div class="content">
 
 <div id="catalog" class="catalog"></div>
 
-<div id="orderForm" class="form">
+<div id="product" class="product">
 
-<h2 id="cakeTitle"></h2>
+<img id="productImg">
 
-<input id="name" placeholder="Ваше имя">
+<h2 id="productTitle"></h2>
 
-<input id="phone" placeholder="Телефон">
+<p id="productPrice"></p>
 
-<textarea id="comment" placeholder="Комментарий"></textarea>
+<p id="productDesc"></p>
 
-<button class="send" onclick="sendOrder()">Отправить заказ</button>
+<button class="buy">Заказать</button>
+
+</div>
+
+<div id="builder" class="builder">
+
+<h2>Конструктор торта</h2>
+
+<img id="cakePreview"
+src="https://images.unsplash.com/photo-1578985545062-69928b1d9587"
+style="width:100%;border-radius:10px">
+
+<h3>Коржи</h3>
+
+<div class="options">
+
+<div class="option"
+onclick="changeCake('https://images.unsplash.com/photo-1578985545062-69928b1d9587')">
+Шоколад
+</div>
+
+<div class="option"
+onclick="changeCake('https://images.unsplash.com/photo-1605475128023-1b8c4f5c0c9b')">
+Ваниль
+</div>
+
+</div>
+
+<h3>Начинка</h3>
+
+<div class="options">
+
+<div class="option"
+onclick="changeCake('https://images.unsplash.com/photo-1559620192-032c4bc4674e')">
+Клубника
+</div>
+
+<div class="option"
+onclick="changeCake('https://images.unsplash.com/photo-1533134242443-d4fd215305ad')">
+Крем
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 <script>
-
-let selectedCake="";
 
 const cakes=[
 
@@ -139,49 +206,32 @@ const cakes=[
 name:"Шоколадный торт",
 price:"45€",
 category:"cake",
-img:"https://images.unsplash.com/photo-1578985545062-69928b1d9587"
+img:"https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+desc:"Шоколадные коржи и крем."
 },
 
 {
 name:"Клубничный торт",
 price:"55€",
 category:"cake",
-img:"https://images.unsplash.com/photo-1559620192-032c4bc4674e"
+img:"https://images.unsplash.com/photo-1559620192-032c4bc4674e",
+desc:"Клубничная начинка."
 },
 
 {
-name:"Свадебный торт",
-price:"120€",
-category:"cake",
-img:"https://images.unsplash.com/photo-1603532648955-039310d9ed75"
-},
-
-{
-name:"Капкейк шоколад",
+name:"Капкейк",
 price:"5€",
 category:"cupcake",
-img:"https://images.unsplash.com/photo-1486427944299-d1955d23e34d"
-},
-
-{
-name:"Капкейк клубника",
-price:"5€",
-category:"cupcake",
-img:"https://images.unsplash.com/photo-1519869325930-281384150729"
-},
-
-{
-name:"Чизкейк",
-price:"35€",
-category:"dessert",
-img:"https://images.unsplash.com/photo-1533134242443-d4fd215305ad"
+img:"https://images.unsplash.com/photo-1486427944299-d1955d23e34d",
+desc:"Шоколадный капкейк."
 }
 
 ];
 
-function showCategory(cat){
+function showCatalog(cat){
 
-document.getElementById("orderForm").style.display="none";
+document.getElementById("product").style.display="none";
+document.getElementById("builder").style.display="none";
 document.getElementById("catalog").style.display="grid";
 
 let html="";
@@ -190,17 +240,15 @@ cakes.filter(c=>c.category===cat).forEach(c=>{
 
 html+=`
 
-<div class="card">
+<div class="card" onclick="openProduct('${c.name}')">
 
 <img src="${c.img}">
 
 <div class="card-body">
 
-<h3>${c.name}</h3>
+<h4>${c.name}</h4>
 
 <div class="price">${c.price}</div>
-
-<button class="buy" onclick="order('${c.name}')">Заказать</button>
 
 </div>
 
@@ -214,34 +262,35 @@ document.getElementById("catalog").innerHTML=html;
 
 }
 
-function order(name){
+function openProduct(name){
 
-selectedCake=name;
+let cake=cakes.find(c=>c.name===name);
 
 document.getElementById("catalog").style.display="none";
-document.getElementById("orderForm").style.display="block";
+document.getElementById("product").style.display="block";
 
-document.getElementById("cakeTitle").innerText=name;
-
-}
-
-function sendOrder(){
-
-let name=document.getElementById("name").value;
-let phone=document.getElementById("phone").value;
-let comment=document.getElementById("comment").value;
-
-let text=`Новый заказ 🍰
-Торт: ${selectedCake}
-Имя: ${name}
-Телефон: ${phone}
-Комментарий: ${comment}`;
-
-Telegram.WebApp.sendData(text);
+productImg.src=cake.img;
+productTitle.innerText=cake.name;
+productPrice.innerText=cake.price;
+productDesc.innerText=cake.desc;
 
 }
 
-showCategory("cake");
+function openBuilder(){
+
+document.getElementById("catalog").style.display="none";
+document.getElementById("product").style.display="none";
+document.getElementById("builder").style.display="block";
+
+}
+
+function changeCake(img){
+
+document.getElementById("cakePreview").src=img;
+
+}
+
+showCatalog("cake");
 
 </script>
 
