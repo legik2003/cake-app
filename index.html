@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Cake Shop</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -15,8 +20,8 @@ background:#f4f4f4;
 }
 
 .header{
-padding:15px;
-font-size:20px;
+padding:3vw;
+font-size:5vw;
 text-align:center;
 background:white;
 box-shadow:0 2px 10px rgba(0,0,0,0.1);
@@ -24,103 +29,181 @@ box-shadow:0 2px 10px rgba(0,0,0,0.1);
 
 .layout{
 display:flex;
+min-height:100vh;
 }
 
 .sidebar{
-width:120px;
+width:22vw;
+max-width:140px;
 background:white;
-padding:10px;
-box-shadow:2px 0 8px rgba(0,0,0,0.1);
+padding:2vw;
+box-shadow:2px 0 10px rgba(0,0,0,0.1);
 }
 
 .sidebar button{
+
 display:block;
+
 width:100%;
-margin-bottom:8px;
-padding:6px;
+
+margin-bottom:2vw;
+
+padding:2vw;
+
+font-size:3.5vw;
+
 border:none;
+
 background:#eee;
-border-radius:6px;
+
+border-radius:8px;
+
 cursor:pointer;
-font-size:12px;
+
 }
 
 .content{
+
 flex:1;
-padding:12px;
+
+padding:3vw;
+
 }
 
 .catalog{
+
 display:grid;
+
 grid-template-columns:1fr 1fr;
-gap:10px;
+
+gap:3vw;
+
 }
 
 .card{
+
 background:white;
-border-radius:10px;
+
+border-radius:3vw;
+
 overflow:hidden;
+
 box-shadow:0 4px 10px rgba(0,0,0,0.1);
+
 cursor:pointer;
+
 }
 
 .card img{
+
 width:100%;
-height:120px;
+
+height:32vw;
+
 object-fit:cover;
+
 }
 
 .card-body{
-padding:8px;
+
+padding:3vw;
+
 }
 
 .price{
+
+font-size:4vw;
+
 font-weight:bold;
+
 }
 
-button.buy{
-margin-top:8px;
+.buy{
+
+margin-top:2vw;
+
 width:100%;
-padding:8px;
+
+padding:3vw;
+
+font-size:4vw;
+
 border:none;
+
 background:#ff6b6b;
+
 color:white;
-border-radius:6px;
+
+border-radius:2vw;
+
 }
 
 .product{
+
 display:none;
+
 }
 
 .product img{
+
 width:100%;
-border-radius:10px;
+
+border-radius:3vw;
+
 }
 
 .builder{
+
 display:none;
+
+}
+
+.builder img{
+
+width:100%;
+
+border-radius:3vw;
+
+margin-bottom:3vw;
+
 }
 
 .options{
+
 display:flex;
-gap:10px;
-margin-top:10px;
+
+flex-wrap:wrap;
+
+gap:2vw;
+
 }
 
 .option{
+
 background:white;
-padding:10px;
-border-radius:8px;
+
+padding:2vw;
+
+border-radius:2vw;
+
 cursor:pointer;
+
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+
+font-size:3.5vw;
+
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="header">
+
 🍰 Cake Shop
+
 </div>
 
 <div class="layout">
@@ -128,8 +211,11 @@ cursor:pointer;
 <div class="sidebar">
 
 <button onclick="showCatalog('cake')">🎂 Торты</button>
+
 <button onclick="showCatalog('cupcake')">🧁 Капкейки</button>
+
 <button onclick="showCatalog('dessert')">🍰 Десерты</button>
+
 <button onclick="openBuilder()">🎨 Конструктор</button>
 
 </div>
@@ -157,8 +243,7 @@ cursor:pointer;
 <h2>Конструктор торта</h2>
 
 <img id="cakePreview"
-src="https://images.unsplash.com/photo-1578985545062-69928b1d9587"
-style="width:100%;border-radius:10px">
+src="https://images.unsplash.com/photo-1578985545062-69928b1d9587">
 
 <h3>Коржи</h3>
 
@@ -192,6 +277,24 @@ onclick="changeCake('https://images.unsplash.com/photo-1533134242443-d4fd215305a
 
 </div>
 
+<h3>Топпинг</h3>
+
+<div class="options">
+
+<div class="option"
+onclick="changeCake('https://images.unsplash.com/photo-1621303837174-89787a7d4729')">
+Фрукты
+</div>
+
+<div class="option"
+onclick="changeCake('https://images.unsplash.com/photo-1605478901163-9c2b7d76c0d5')">
+Шоколад
+</div>
+
+</div>
+
+<button class="buy">Заказать торт</button>
+
 </div>
 
 </div>
@@ -200,30 +303,78 @@ onclick="changeCake('https://images.unsplash.com/photo-1533134242443-d4fd215305a
 
 <script>
 
+Telegram.WebApp.expand();
+
 const cakes=[
 
 {
+
 name:"Шоколадный торт",
+
 price:"45€",
+
 category:"cake",
+
 img:"https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+
 desc:"Шоколадные коржи и крем."
+
 },
 
 {
+
 name:"Клубничный торт",
+
 price:"55€",
+
 category:"cake",
+
 img:"https://images.unsplash.com/photo-1559620192-032c4bc4674e",
+
 desc:"Клубничная начинка."
+
 },
 
 {
+
+name:"Свадебный торт",
+
+price:"120€",
+
+category:"cake",
+
+img:"https://images.unsplash.com/photo-1603532648955-039310d9ed75",
+
+desc:"Большой свадебный торт."
+
+},
+
+{
+
 name:"Капкейк",
+
 price:"5€",
+
 category:"cupcake",
+
 img:"https://images.unsplash.com/photo-1486427944299-d1955d23e34d",
+
 desc:"Шоколадный капкейк."
+
+},
+
+{
+
+name:"Чизкейк",
+
+price:"35€",
+
+category:"dessert",
+
+img:"https://images.unsplash.com/photo-1533134242443-d4fd215305ad",
+
+desc:"Нежный чизкейк."
+
 }
 
 ];
@@ -231,7 +382,9 @@ desc:"Шоколадный капкейк."
 function showCatalog(cat){
 
 document.getElementById("product").style.display="none";
+
 document.getElementById("builder").style.display="none";
+
 document.getElementById("catalog").style.display="grid";
 
 let html="";
@@ -267,11 +420,15 @@ function openProduct(name){
 let cake=cakes.find(c=>c.name===name);
 
 document.getElementById("catalog").style.display="none";
+
 document.getElementById("product").style.display="block";
 
 productImg.src=cake.img;
+
 productTitle.innerText=cake.name;
+
 productPrice.innerText=cake.price;
+
 productDesc.innerText=cake.desc;
 
 }
@@ -279,7 +436,9 @@ productDesc.innerText=cake.desc;
 function openBuilder(){
 
 document.getElementById("catalog").style.display="none";
+
 document.getElementById("product").style.display="none";
+
 document.getElementById("builder").style.display="block";
 
 }
@@ -295,4 +454,5 @@ showCatalog("cake");
 </script>
 
 </body>
+
 </html>
